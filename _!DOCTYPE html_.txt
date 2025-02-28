@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para o Amor da Minha Vida</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #ffafbd, #ffc3a0);
+            color: #fff;
+            text-align: center;
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .question-box {
+            display: none;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px auto;
+            width: 90%;
+            max-width: 400px;
+        }
+        .question-box.active {
+            display: block;
+        }
+        .answers button {
+            background: #fff;
+            color: #ff69b4;
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            margin: 8px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        .answers button:hover {
+            background: #ff69b4;
+            color: white;
+        }
+        .decorations {
+            font-size: 20px;
+            width: 100%;
+            top: 10px;
+            display: flex;
+            justify-content: space-around;
+        }
+        #progress-container {
+            margin-top: 20px;
+            width: 80%;
+            max-width: 400px;
+            height: 15px;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+            display: none;
+            text-align: center;
+        }
+        #progress-bar {
+            width: 0;
+            height: 100%;
+            background-color: #ff69b4;
+            transition: width 0.3s ease;
+        }
+        #heart {
+            font-size: 25px;
+            color: #ff69b4;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.3s ease;
+            display: none;
+        }
+        #heart:hover {
+            transform: scale(1.2);
+        }
+        #final-message {
+            font-size: 24px;
+            color: #ff69b4;
+            font-weight: bold;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="decorations">🌹 💌 💖 🌹 💌 💖 🌹 💌 💖</div>
+    <h1>Para o Amor da Minha Vida</h1>
+
+    <div id="question-1" class="question-box active">
+        <p>1. Qual foi o dia que nos beijamos pela primeira vez?</p>
+        <div class="answers">
+            <button onclick="checkAnswer(1, '08 de fevereiro')">08 de fevereiro</button>
+            <button onclick="checkAnswer(1, '21 de agosto')">21 de agosto</button>
+            <button onclick="checkAnswer(1, '09 de fevereiro')">09 de fevereiro</button>
+            <button onclick="checkAnswer(1, '11 de fevereiro')">11 de fevereiro</button>
+        </div>
+    </div>
+
+    <div id="question-2" class="question-box">
+        <p>2. Qual lugar que eu sempre sonhei em ir?</p>
+        <div class="answers">
+            <button onclick="checkAnswer(2, 'Grécia')">Grécia</button>
+            <button onclick="checkAnswer(2, 'Espanha')">Espanha</button>
+            <button onclick="checkAnswer(2, 'Portugal')">Portugal</button>
+            <button onclick="checkAnswer(2, 'Itália')">Itália</button>
+        </div>
+    </div>
+
+    <div id="question-3" class="question-box">
+        <p>3. Aonde foi o nosso primeiro encontro?</p>
+        <div class="answers">
+            <button onclick="checkAnswer(3, 'Cinema')">Cinema</button>
+            <button onclick="checkAnswer(3, 'Biblioteca')">Biblioteca</button>
+            <button onclick="checkAnswer(3, 'Parque')">Parque</button>
+            <button onclick="checkAnswer(3, 'Praia')">Praia</button>
+        </div>
+    </div>
+
+    <div id="question-4" class="question-box">
+        <p>4. Sempre falei que você é um homem cheiroso, mas eu falo que você tem cheiro de...</p>
+        <div class="answers">
+            <button onclick="checkAnswer(4, 'Algodão')">Algodão</button>
+            <button onclick="checkAnswer(4, 'Doce')">Doce</button>
+            <button onclick="checkAnswer(4, 'Rosas')">Rosas</button>
+            <button onclick="checkAnswer(4, 'Café')">Café</button>
+        </div>
+    </div>
+
+    <div id="question-5" class="question-box">
+        <p>5. Essa é a última, vamos ver se você consegue acertar... O quanto eu te amo?</p>
+        <div class="answers">
+            <button onclick="checkAnswer(5, 'Infinito')">Infinito</button>
+        </div>
+    </div>
+
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+    <div id="heart" onclick="increaseProgress()">💖</div>
+    <div id="final-message">Infelizmente não podemos continuar, pois o amor dela é infinito, e você ficaria aqui por horas.</div>
+
+    <script>
+        let progress = 0;
+        let chances = 3;
+
+        function checkAnswer(questionNumber, answer) {
+            let correctAnswers = {
+                1: '08 de fevereiro',
+                2: 'Grécia',
+                3: 'Biblioteca',
+                4: 'Café',
+                5: 'Infinito'
+            };
+
+            if (answer === correctAnswers[questionNumber]) {
+                document.getElementById('question-' + questionNumber).classList.remove('active');
+                let nextQuestion = document.getElementById('question-' + (questionNumber + 1));
+                if (nextQuestion) {
+                    nextQuestion.classList.add('active');
+                } else {
+                    document.getElementById('progress-container').style.display = 'block';
+                    document.getElementById('heart').style.display = 'block';
+                }
+            } else {
+                chances--;
+                if (chances === 0) {
+                    alert("Você perdeu todas as chances!");
+                    document.location.reload();
+                } else {
+                    alert("Resposta incorreta. Você tem " + chances + " chances restantes.");
+                }
+            }
+        }
+
+        function increaseProgress() {
+            if (progress < 100) {
+                progress += 10;
+                document.getElementById('progress-bar').style.width = progress + '%';
+            } else {
+                document.getElementById('final-message').style.display = 'block';
+                document.getElementById('progress-container').style.display = 'none';
+                document.getElementById('heart').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
